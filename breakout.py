@@ -142,7 +142,7 @@ def scores(): #fonction qui compte et affiche le score, il arrête le jeux quand
     global tex
     global rectdict
     zone.itemconfig(tex, text="score: "+str(score))
-    if rectdict=={}:
+    if score=="40":
         winlose="gagné"
         window.destroy()
         end()
