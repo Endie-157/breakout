@@ -178,7 +178,7 @@ def ballbonus(): #Fonction qui gère le mouvement de la balle bonus et les colli
     global dyb
     global zone
     global balle2
-    if zone.coords(balle2)[3]<27:
+    if zone.coords(balle2)[3]<65:
         dyb=-1*dyb
     elif zone.coords(balle2)[2]>813 or zone.coords(balle2)[2]<65:
         dxb=-1*dxb
