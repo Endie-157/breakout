@@ -42,7 +42,7 @@ def ballmove(): #Fonction qui gère le mouvement de la balle et les collisions
     global dy
     global zone
     global balle1
-    if zone.coords(balle1)[3]<65 or zone.coords(balle1)[3]>680:
+    if zone.coords(balle1)[3]<65:
         dy=-1*dy
     elif zone.coords(balle1)[2]>813 or zone.coords(balle1)[2]<65:
         dx=-1*dx
@@ -51,9 +51,9 @@ def ballmove(): #Fonction qui gère le mouvement de la balle et les collisions
         rectm = zone.coords(raquette)[0]+75
         dx = (ballm-rectm)/7
         dy=-1*dy
-    #elif zone.coords(balle1)[3]>680:
-        #window.destroy()
-        #end()
+    elif zone.coords(balle1)[3]>680:
+        window.destroy()
+        end()
     zone.move(balle1,dx,dy)
     window.after(20,ballmove)
 
@@ -88,7 +88,7 @@ def elements(): #Fonction qui crée les éléments du jeu
     colours=('red', 'orange', 'yellow', 'green', 'blue')
     for loop in range(5):
         for loooop in range(8):
-            if chance > 0.00:
+            if chance > 0.95:
                 altid = "*"+str(id)
                 rectdict[altid] = zone.create_rectangle(x1,y1,x2,y2, fill='grey')
             else:    
