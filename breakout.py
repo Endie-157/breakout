@@ -15,7 +15,7 @@ def screen(): #fonction qui initialise la fenêtre et les fonctions du jeux
     global tone
     global balle2
     global winlose
-    balle2 = None
+    balle2 = False
     winlose="perdu"
     tone = (100, 110, 120, 130, 140)
     try:
@@ -28,7 +28,7 @@ def screen(): #fonction qui initialise la fenêtre et les fonctions du jeux
     dxb=5
     dyb=5
     window=Tk()
-    zone=Canvas(window, width=814, height=680, bg="white")
+    zone=Canvas(window, width=814, height=680, bg="black")
     zone.pack(padx=10,pady=10)
     elements()
     ballmove()
@@ -42,7 +42,7 @@ def ballmove(): #Fonction qui gère le mouvement de la balle et les collisions
     global dy
     global zone
     global balle1
-    if zone.coords(balle1)[3]<65:
+    if zone.coords(balle1)[3]<65 or zone.coords(balle1)[3]>680:
         dy=-1*dy
     elif zone.coords(balle1)[2]>813 or zone.coords(balle1)[2]<65:
         dx=-1*dx
@@ -51,9 +51,9 @@ def ballmove(): #Fonction qui gère le mouvement de la balle et les collisions
         rectm = zone.coords(raquette)[0]+75
         dx = (ballm-rectm)/7
         dy=-1*dy
-    elif zone.coords(balle1)[3]>680:
-        window.destroy()
-        end()
+    #elif zone.coords(balle1)[3]>680:
+        #window.destroy()
+        #end()
     zone.move(balle1,dx,dy)
     window.after(20,ballmove)
 
@@ -75,8 +75,8 @@ def elements(): #Fonction qui crée les éléments du jeu
     global rectdict
     global tex
     balle1 = zone.create_oval(400,300,464,364,fill='purple')
-    raquette = zone.create_rectangle(500,580,650,610,fill='black')
-    tex = zone.create_text(700, 650, text=score, font='Arial 24')
+    raquette = zone.create_rectangle(500,580,650,610,fill='grey')
+    tex = zone.create_text(700, 650, text=score, font='Arial 24', fill='white')
     x1=1
     y1=0
     x2=100
@@ -88,7 +88,7 @@ def elements(): #Fonction qui crée les éléments du jeu
     colours=('red', 'orange', 'yellow', 'green', 'blue')
     for loop in range(5):
         for loooop in range(8):
-            if chance > 0.4:
+            if chance > 0.00:
                 altid = "*"+str(id)
                 rectdict[altid] = zone.create_rectangle(x1,y1,x2,y2, fill='grey')
             else:    
@@ -113,7 +113,7 @@ def rectremove(): #Fonction qui casse une brique touchée par la balle et change
     global zone
     for id in rectdict:
         if zone.find_overlapping(zone.coords(rectdict[id])[0],zone.coords(rectdict[id])[1],zone.coords(rectdict[id])[2],zone.coords(rectdict[id])[3])[0]==balle1:
-            if str(id)[0]=="*" and balle2==None:
+            if str(id)[0]=="*" and balle2==False:
                 balle2 = zone.create_oval(400,300,464,364,fill='magenta')
                 ballbonus()
             zone.delete(rectdict[id])
@@ -141,8 +141,9 @@ def scores(): #fonction qui compte et affiche le score, il arrête le jeux quand
     global score
     global tex
     global rectdict
+    global winlose
     zone.itemconfig(tex, text="score: "+str(score))
-    if score=="40":
+    if score==40:
         winlose="gagné"
         window.destroy()
         end()
@@ -188,7 +189,8 @@ def ballbonus(): #Fonction qui gère le mouvement de la balle bonus et les colli
         dyb=-1*dyb
     elif zone.coords(balle2)[3]>680:
         zone.delete(balle2)
-        Balle2=None
+        balle2=False
+        return None
     zone.move(balle2,dxb,dyb)
     window.after(20,ballbonus)
 
